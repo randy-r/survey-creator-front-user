@@ -21,23 +21,25 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Layout>
+        <Layout style={{ minHeight: "100vh" }}>
           <Header>Header</Header>
-          <Content>
-            <Router>
-              <Row type="flex" justify="center">
-                <Col span={12}>
-                  <Route path="/take-survey/:surveyId" component={TakeSurveyPage} />
-                </Col>
-              </Row>
-            </Router>
-            <Row type="flex" justify="center">
+          <Content >
+            <div style={{ padding: '0 2% 0 2%' }}>
+              <Router>
+                <Row type="flex" justify="center">
+                  <Col xs={24} sm={24} md={18} lg={12} xl={12}>
+                    <Route path="/take-survey/:surveyId" component={TakeSurveyPage} />
+                  </Col>
+                </Row>
+              </Router>
+              {/* <Row type="flex" justify="center">
               <Col span={12}>text</Col>
-            </Row>
-            <Row type="flex" justify="center">
+            </Row> */}
+              {/* <Row type="flex" justify="center">
               <DatePicker onChange={v => console.log('DatePicker chose: ', v)} />
               {this.state.foos.map(f => <h3>{f}</h3>)}
-            </Row>
+            </Row> */}
+            </div>
           </Content>
           <Footer>Footer</Footer>
         </Layout>
