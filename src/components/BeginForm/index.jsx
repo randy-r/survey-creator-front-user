@@ -12,7 +12,7 @@ class BeginForm extends Component {
     const { survey } = this.props;
     data.survey = {
       id: survey.id,
-      questionaresIds: survey.questionaresIds
+      questionaresIDsAndTypes: survey.questionaresIDsAndTypes
     };
     fetch('/api/begin-survey-session', {
       headers: {

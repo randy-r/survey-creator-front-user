@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
 import { BeginForm } from '../BeginForm';
-import { Questionnaire } from '../Questionnaire';
+import { QuestionnaireContainer } from '../Questionnaire';
 
 class TakeSurveyPage extends Component {
   state = {
     survey: null,
-    crtQId: null,
+    crtQIdAndType: null,
   }
 
 
@@ -33,22 +33,22 @@ class TakeSurveyPage extends Component {
     // hide the form, show the first questionnare
     // do not use the router as the participant should not go back to the prev 
 
-    const { survey, crtQId } = this.state;
-    const { questionaresIds } = survey;
-    if (questionaresIds.length < 1) {
+    const { survey, crtQIdAndType } = this.state;
+    const { questionaresIDsAndTypes } = survey;
+    if (questionaresIDsAndTypes.length < 1) {
       throw new Error(`Survey at id ${survey.id} has no questionnaires`);
     }
-    this.setState({ crtQId: questionaresIds[0] });
+    this.setState({ crtQIdAndType: questionaresIDsAndTypes[0] });
   }
 
 
   render() {
     const { match: { params: { surveyId } } } = this.props;
-    const { survey, crtQId } = this.state;
+    const { survey, crtQIdAndType } = this.state;
     if (!survey) {
       return 'Loading...'
     }
-    if (!crtQId) {
+    if (!crtQIdAndType) {
       return (
         <div>
           {survey.name}
@@ -56,7 +56,7 @@ class TakeSurveyPage extends Component {
         </div>
       );
     }
-    return <Questionnaire id={crtQId} />;
+    return <QuestionnaireContainer id={crtQIdAndType.id} type={crtQIdAndType.type} />;
   }
 }
 
