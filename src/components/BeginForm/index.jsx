@@ -20,7 +20,7 @@ class BeginForm extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(data)
     }).then(res => {
       if (res.ok)

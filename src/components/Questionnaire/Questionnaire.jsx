@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { List, Card, Row, Col, Slider, Button } from 'antd';
 
 import { Radio } from 'antd';
@@ -26,17 +26,30 @@ class Choiches extends React.Component {
   }
 }
 
+const CardTitle = ({ text, imgUrl }) => {
+  return (
+  <Fragment>
+    <span>{text}</span>
+    {imgUrl && <img style={{ width: '100%' }} border="0" alt="Null" src="http://socialintelligence.labinthewild.org/mite/images/8.png" />}
+  </Fragment>
+  );
+};
+
+
 class ItemCard extends Component {
   handleChoiceSelection = val => {
     const { item, onChoiceSelection } = this.props;
     onChoiceSelection(item._id, val);
   }
   render() {
-    const { item } = this.props;
+    const { item: { text, imgUrl, answerTemplate } } = this.props;
     return (
       <List.Item>
-        <Card style={{ width: '100%', wordWrap: 'break-word', whiteSpace: 'normal', wordBreak: 'break-all' }} title={item.text}>
-          <Choiches onChoiceSelection={this.handleChoiceSelection} bullets={item.answerTemplate.bullets} />
+        <Card
+          style={{ width: '100%', wordWrap: 'break-word', whiteSpace: 'normal', wordBreak: 'break-all' }}
+          title={<CardTitle text={text} imgUrl={imgUrl} />}
+        >
+          <Choiches onChoiceSelection={this.handleChoiceSelection} bullets={answerTemplate.bullets} />
         </Card>
       </List.Item>
     );

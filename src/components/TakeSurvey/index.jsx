@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { BeginForm } from '../BeginForm';
 import { QuestionnaireContainer } from '../Questionnaire';
-import { getToken } from '../../utils/auth';
+import { getToken, clearSession } from '../../utils/auth';
 
 class TakeSurveyPage extends Component {
   allItemAnswers = [];
@@ -12,6 +12,10 @@ class TakeSurveyPage extends Component {
     surveyCompleted: false,
   }
 
+  constructor(props) {
+    super(props);
+    this.handleNext = this.handleNext.bind(this);
+  }
 
   componentDidMount() {
     const { match } = this.props;
@@ -58,10 +62,10 @@ class TakeSurveyPage extends Component {
     this.setState({ crtQIdAndTypeIndex: 0 });
   }
 
-  handleNext = (answers, isFake) => {
+  handleNext(answers, isFake) {
     console.log('--next ', answers);
 
-    if(!isFake){
+    if (answers) { // should work on params
       this.allItemAnswers = this.allItemAnswers.concat(answers);
     }
 
@@ -70,22 +74,48 @@ class TakeSurveyPage extends Component {
 
     if (crtQIdAndTypeIndex === questionaresIDsAndTypes.length - 1) {
       // last q in survey
-      this.setState({surveyCompleted: true});
-      console.log('last q in survey');
+      // send all answers to the server
+      console.log('last q in survey, sending answers...');
+
+      const data = {
+        allItemAnswers: this.allItemAnswers
+      };
+
+      fetch('/api/end-survey-session', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getToken()}`,
+        },
+        method: 'POST',
+        body: JSON.stringify(data)
+      }).then(res => {
+        if (res.ok)
+          return res.json();
+        throw new Error(res.statusText)
+      }).then(json => {
+        console.log('Successfully ended the survey session', json);
+        clearSession();
+        this.setState({ surveyCompleted: true });
+      }).catch(e => {
+        console.error('Error at fetching: ', e)
+        return e;
+      });
+
     } else {
       const index = crtQIdAndTypeIndex + 1;
-      this.setState({ crtQIdAndTypeIndex: index })
+      this.setState({ crtQIdAndTypeIndex: index });
     }
   }
 
-  
+
   render() {
     const { match: { params: { surveyId } } } = this.props;
     const { survey, crtQIdAndTypeIndex, surveyCompleted } = this.state;
     if (!survey) {
       return 'Loading...'
     }
-    if(surveyCompleted){
+    if (surveyCompleted) {
       return (
         <h1 style={{ textAlign: 'center' }}>Thanks for taking the survey!</h1>
       );

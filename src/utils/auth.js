@@ -7,3 +7,7 @@ export const setToken = token => {
 export const getToken = () => {
   return localStorage.getItem(tokenKey);
 }
+
+export const clearSession = () => {
+  localStorage.clear();
+}
