@@ -5,7 +5,7 @@ import { QuestionnaireContainer } from '../Questionnaire';
 import { getToken, clearSession } from '../../utils/auth';
 
 class TakeSurveyPage extends Component {
-  allItemAnswers = [];
+  qsResults = [];
   state = {
     survey: null,
     crtQIdAndTypeIndex: -1,
@@ -62,15 +62,14 @@ class TakeSurveyPage extends Component {
     this.setState({ crtQIdAndTypeIndex: 0 });
   }
 
-  handleNext(answers, isFake) {
-    console.log('--next ', answers);
-
-    if (answers) { // should work on params
-      this.allItemAnswers = this.allItemAnswers.concat(answers);
+  handleNext(answersInfo, isFake) {
+    if (answersInfo) { // should work on params
+      this.qsResults = this.qsResults.concat(answersInfo);
     }
 
     // set the next crtQIdAndTypeIndex
-    const { crtQIdAndTypeIndex, survey: { questionaresIDsAndTypes } } = this.state;
+    const { crtQIdAndTypeIndex, survey } = this.state;
+    const { questionaresIDsAndTypes } = survey;
 
     if (crtQIdAndTypeIndex === questionaresIDsAndTypes.length - 1) {
       // last q in survey
@@ -78,7 +77,8 @@ class TakeSurveyPage extends Component {
       console.log('last q in survey, sending answers...');
 
       const data = {
-        allItemAnswers: this.allItemAnswers
+        // surveyId: survey.id, this info is on the crt user
+        questionnairesResults: this.qsResults
       };
 
       fetch('/api/end-survey-session', {

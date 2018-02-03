@@ -28,10 +28,10 @@ class Choiches extends React.Component {
 
 const CardTitle = ({ text, imgUrl }) => {
   return (
-  <Fragment>
-    <span>{text}</span>
-    {imgUrl && <img style={{ width: '100%' }} border="0" alt="Null" src="http://socialintelligence.labinthewild.org/mite/images/8.png" />}
-  </Fragment>
+    <Fragment>
+      <span>{text}</span>
+      {imgUrl && <img style={{ width: '100%' }} border="0" alt="Null" src="http://socialintelligence.labinthewild.org/mite/images/8.png" />}
+    </Fragment>
   );
 };
 
@@ -69,11 +69,16 @@ class Questionnaire extends Component {
   }
 
   handleNext = () => {
-    const answers = [];
+    const { questionnaire } = this.props;
+
+    const items = [];
     this.itemsAnswered.forEach((v, k) => {
-      answers.push({ itemId: k, value: v });
+      items.push({ id: k, answer: v });
     });
-    this.props.onNext(answers);
+    this.props.onNext({
+      items,
+      id: questionnaire.id
+    });
   }
 
   render() {
