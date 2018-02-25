@@ -10,10 +10,12 @@ class BeginForm extends Component {
 
   handleSubmit(data) {
     const { survey } = this.props;
+    // TODO these should be taken from the db, except the id
     data.survey = {
       id: survey.id,
       questionaresIDsAndTypes: survey.questionaresIDsAndTypes,
-      rational: survey.rational
+      rational: survey.rational,
+      followUpInfo: survey.followUpInfo,
     };
     fetch('/api/begin-survey-session', {
       headers: {
