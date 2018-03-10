@@ -1,4 +1,4 @@
-const tokenKey = 'token';
+const tokenKey = 'survey-session';
 
 export const setToken = token => {
   localStorage.setItem(tokenKey, token);
@@ -9,5 +9,5 @@ export const getToken = () => {
 }
 
 export const clearSession = () => {
-  localStorage.clear();
+  localStorage.removeItem(tokenKey);
 }
