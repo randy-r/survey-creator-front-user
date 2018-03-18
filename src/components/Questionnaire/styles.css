@@ -3,3 +3,8 @@
   white-space: normal;
   word-break: break-all;
 }
+
+.ant-radio-group{
+  display: flex;
+  flex-direction: column;
+}
