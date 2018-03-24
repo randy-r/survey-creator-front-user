@@ -92,6 +92,9 @@ class TakeSurveyPage extends Component {
       }).then(res => {
         if (res.ok)
           return res.json();
+        if (res.status === 403) {
+          console.error('You already took this survey');
+        }
         throw new Error(res.statusText)
       }).then(json => {
         console.log('Successfully ended the survey session', json);
@@ -99,6 +102,7 @@ class TakeSurveyPage extends Component {
         this.setState({ surveyCompleted: true });
       }).catch(e => {
         console.error('Error at fetching: ', e)
+        clearSession();
         return e;
       });
 
