@@ -29,6 +29,7 @@ class App extends Component {
                 <Row type="flex" justify="center">
                   <Col xs={24} sm={24} md={18} lg={12} xl={12}>
                     <Route path="/user/take-survey/:surveyId" component={TakeSurveyPage} />
+                    <Route path="/user/:userId/take-survey/:surveyId" component={TakeSurveyPage} />
                   </Col>
                 </Row>
               </Router>

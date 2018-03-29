@@ -114,7 +114,7 @@ class TakeSurveyPage extends Component {
 
 
   render() {
-    const { match: { params: { surveyId } } } = this.props;
+    const { match: { params: { surveyId, userId} } } = this.props;
     const { survey, crtQIdAndTypeIndex, surveyCompleted } = this.state;
     if (!survey) {
       return 'Loading...'
@@ -128,7 +128,7 @@ class TakeSurveyPage extends Component {
       return (
         <div>
           {survey.name}
-          <BeginForm survey={survey} onSuccess={this.handleBeginFormSuccess} />
+          <BeginForm userId={userId} survey={survey} onSuccess={this.handleBeginFormSuccess} />
         </div>
       );
     }
