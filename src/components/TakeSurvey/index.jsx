@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { Button, Card, Row } from 'antd';
 
 import { BeginForm } from '../BeginForm';
 import { QuestionnaireContainer } from '../Questionnaire';
@@ -10,6 +11,7 @@ class TakeSurveyPage extends Component {
     survey: null,
     crtQIdAndTypeIndex: -1,
     surveyCompleted: false,
+    showInstructions: true,
   }
 
   constructor(props) {
@@ -114,10 +116,31 @@ class TakeSurveyPage extends Component {
 
 
   render() {
-    const { match: { params: { surveyId, userId} } } = this.props;
-    const { survey, crtQIdAndTypeIndex, surveyCompleted } = this.state;
+    const { match: { params: { surveyId, userId } } } = this.props;
+    const { survey, crtQIdAndTypeIndex, surveyCompleted, showInstructions } = this.state;
     if (!survey) {
       return 'Loading...'
+    }
+    const { instructions } = survey;
+    if (instructions && showInstructions) {
+      return (
+        <Fragment>
+          <Card style={{ width: '100%' }}   >
+            <pre>
+              {instructions}
+            </pre>
+          </Card>
+          <Row type="flex" justify="end">
+            <Button
+              style={{ alignSelf: 'flex-end' }}
+              type="primary"
+              onClick={() => this.setState({ showInstructions: false })}
+            >
+              {'>'}
+            </Button>
+          </Row>
+        </Fragment>
+      );
     }
     if (surveyCompleted) {
       return (

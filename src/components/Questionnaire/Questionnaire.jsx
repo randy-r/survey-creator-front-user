@@ -30,7 +30,7 @@ const CardTitle = ({ text, imgUrl }) => {
   return (
     <Fragment>
       <span>{text}</span>
-      {imgUrl && <img style={{ width: '100%' }} border="0" alt="Null" src="http://socialintelligence.labinthewild.org/mite/images/8.png" />}
+      {imgUrl && <img style={{ width: '100%' }} border="0" alt="Null" src={imgUrl} />}
     </Fragment>
   );
 };
@@ -57,7 +57,7 @@ class ItemCard extends Component {
 }
 
 class Questionnaire extends Component {
-  state = { disabled: true }
+  state = { disabled: true, showInstructions: true }
   itemsAnswered = new Map();
 
   handleChoiceSelection = (itemId, value) => {
@@ -83,7 +83,27 @@ class Questionnaire extends Component {
 
   render() {
     const { questionnaire } = this.props;
-
+    const { showInstructions } = this.state;
+    if (questionnaire.instructions && showInstructions) {
+      return (
+        <Fragment>
+          <Card style={{ width: '100%' }}   >
+            <pre>
+              {questionnaire.instructions}
+            </pre>
+          </Card>
+          <Row type="flex" justify="end">
+            <Button
+              style={{ alignSelf: 'flex-end' }}
+              type="primary"
+              onClick={() => this.setState({ showInstructions: false })}
+            >
+              {'>'}
+            </Button>
+          </Row>
+        </Fragment>
+      );
+    }
     return (
       <div >
         {/* {questionnaire.name + ' ' + questionnaire.items.length} */}

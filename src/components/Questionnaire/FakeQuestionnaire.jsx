@@ -85,7 +85,7 @@ class TrickItemCard extends Component {
 
 class FakeQuestionnaire extends Component {
   equalTracker = new Set()
-  state = { disabled: true }
+  state = { disabled: true, showInstructions: true }
 
   handleCorrectAnswerValidation = (id, areEqual) => {
     // // map for all and reduce it for the button
@@ -113,8 +113,28 @@ class FakeQuestionnaire extends Component {
   }
 
   render() {
-    const { questionnaire: { trickitems } } = this.props;
-    const { disabled } = this.state;
+    const { questionnaire: { trickitems, instructions } } = this.props;
+    const { disabled, showInstructions } = this.state;
+    if (instructions && showInstructions) {
+      return (
+        <Fragment>
+          <Card style={{ width: '100%' }}   >
+            <pre>
+              {instructions}
+            </pre>
+          </Card>
+          <Row type="flex" justify="end">
+            <Button
+              style={{ alignSelf: 'flex-end' }}
+              type="primary"
+              onClick={() => this.setState({ showInstructions: false })}
+            >
+              {'>'}
+            </Button>
+          </Row>
+        </Fragment>
+      );
+    }
     return (
       <Fragment>
         <List
