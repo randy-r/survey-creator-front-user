@@ -3,6 +3,7 @@ import { List, Card, Row, Col, Slider, Button } from 'antd';
 
 import { Radio } from 'antd';
 import './styles.css';
+import ProgressTimer from './ProgressTimer';
 
 const RadioGroup = Radio.Group;
 
@@ -39,10 +40,10 @@ const CardTitle = ({ text, imgUrl }) => {
 class ItemCard extends Component {
   handleChoiceSelection = val => {
     const { item, onChoiceSelection } = this.props;
-    onChoiceSelection(item._id, val);
+    onChoiceSelection(item._id, val, false);
   }
   render() {
-    const { item: { text, imgUrl, answerTemplate } } = this.props;
+    const { item: { text, imgUrl, answerTemplate, _id }, onChoiceSelection } = this.props;
     return (
       <List.Item>
         <Card
@@ -51,6 +52,7 @@ class ItemCard extends Component {
         >
           <Choiches onChoiceSelection={this.handleChoiceSelection} bullets={answerTemplate.bullets} />
         </Card>
+        {imgUrl && <ProgressTimer totalTime={5000} onTimeRanOut={() => onChoiceSelection(_id, -1, true)} />}
       </List.Item>
     );
   }
@@ -60,9 +62,17 @@ class Questionnaire extends Component {
   state = { disabled: true, showInstructions: true }
   itemsAnswered = new Map();
 
-  handleChoiceSelection = (itemId, value) => {
-    this.itemsAnswered.set(itemId, value);
-    console.log(this.itemsAnswered.size);
+  handleChoiceSelection = (itemId, value, shouldGoToNext) => {
+    const prevValue = this.itemsAnswered.get(itemId);
+    let newValue = value;
+    if (value === -1 && prevValue !== undefined && prevValue !== null) {
+      newValue = prevValue;
+    }
+    this.itemsAnswered.set(itemId, newValue);
+    if (shouldGoToNext === true) {
+      this.handleNext();
+      return;
+    }
 
     const { questionnaire: { items } } = this.props;
     this.setState({ disabled: this.itemsAnswered.size < items.length })
