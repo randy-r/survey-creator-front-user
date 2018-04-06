@@ -20,24 +20,18 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <Layout style={{ minHeight: "100vh" }}>
-          <Header>Header</Header>
-          <Content >
-            <div style={{ padding: '0 2% 0 2%' }}>
-              <Router>
-                <Row type="flex" justify="center">
-                  <Col xs={24} sm={24} md={18} lg={12} xl={12}>
-                    <Route path="/user/take-survey/:surveyId" component={TakeSurveyPage} />
-                    <Route path="/user/:userId/take-survey/:surveyId" component={TakeSurveyPage} />
-                  </Col>
-                </Row>
-              </Router>
-            </div>
-          </Content>
-          <Footer>Footer</Footer>
-        </Layout>
-      </div>
+      <Layout style={{ minHeight: "100vh" }}>
+        <Content style={{ padding: '0 2% 0 2%', display: 'flex' }}>
+          <Router>
+            <Row style={{ flex: 1, alignItems: 'center' }} type="flex" justify="center" >
+              <Col xs={24} sm={24} md={18} lg={12} xl={12} style={{ top: '-15px' }}>
+                <Route path="/user/take-survey/:surveyId" component={TakeSurveyPage} />
+                <Route path="/user/:userId/take-survey/:surveyId" component={TakeSurveyPage} />
+              </Col>
+            </Row>
+          </Router>
+        </Content>
+      </Layout>
     );
   }
 }

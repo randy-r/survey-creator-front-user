@@ -128,6 +128,7 @@ class TakeSurveyPage extends Component {
               {instructions}
             </pre>
           </Card>
+          <p />
           <Row type="flex" justify="end">
             <Button
               style={{ alignSelf: 'flex-end' }}
@@ -148,7 +149,6 @@ class TakeSurveyPage extends Component {
     if (crtQIdAndTypeIndex === -1) {
       return (
         <div>
-          {survey.name}
           <BeginForm userId={userId} survey={survey} onSuccess={this.handleBeginFormSuccess} />
         </div>
       );
