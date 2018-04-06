@@ -1,28 +1,25 @@
 import React, { Component, Fragment } from 'react'
 import { List, Card, Row, Col, Slider, Button, Input, Tag } from 'antd';
 
-const m = ' nhduisadas saudsuadnisaunbu an jn djshajdh suahba  sajk fhhabfsa faj hiabghsidsaf majfhruijgrhgtds sgbufshdidywumng ukfsabdsa';
 
 class TrickItemCard extends Component {
   constructor(props) {
     super(props);
-    const { item: { trickAnswers } } = this.props;
+    const { item: { correctAnswersPool } } = this.props;
 
-    this.allInputValues = Array.apply(null, Array(trickAnswers[0].values.length));
+    this.allInputValues = Array.apply(null, Array(correctAnswersPool.length));
     this.state = { disabled: true };
     this.prevAreEqual = false;
   }
 
   handleInputChange = ({ target: { value } }, index) => {
+    // compare the list of array with the list of correct answer pool
     this.allInputValues[index] = value;
+    const { item: { correctAnswersPool } } = this.props;
 
-    const { item: { trickAnswers, correctTrickAnswerIndex } } = this.props;
-    // compare what the user filled in with what is the 'correct' answer    
-    const correctTrickAnswer = trickAnswers[correctTrickAnswerIndex];
-    const correctTrickValues = correctTrickAnswer.values;
     let areEqual = true;
     this.allInputValues.forEach((v, i) => {
-      if (v !== correctTrickValues[i]) {
+      if (v !== correctAnswersPool[i]) {
         areEqual = false;
       }
     });
@@ -57,15 +54,11 @@ class TrickItemCard extends Component {
   }
 
   createAnswers = () => {
-    const { item } = this.props;
+    const { item: { allAnswersShuffled } } = this.props;
     return (
       <Fragment>
-        {item.trickAnswers.map((a, i) => {
-          return (
-            <div key={i} style={{ marginBottom: 4 }}>
-              {i + 1}) {a.values.map(v => <Tag key={v} color="blue">{v}</Tag>)}
-            </div>
-          );
+        {allAnswersShuffled.map((a, i) => {
+          return <Tag key={a} color="blue">{a}</Tag>
         })}
       </Fragment>
     );
