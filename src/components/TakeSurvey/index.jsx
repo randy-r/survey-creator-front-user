@@ -4,6 +4,7 @@ import { Button, Card, Row } from 'antd';
 import { BeginForm } from '../BeginForm';
 import { QuestionnaireContainer } from '../Questionnaire';
 import { getToken, clearSession } from '../../utils/auth';
+import { thankYouMessage } from '../../constants';
 
 class TakeSurveyPage extends Component {
   qsResults = [];
