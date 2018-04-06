@@ -7,7 +7,8 @@ class TrickItemCard extends Component {
     super(props);
     const { item: { correctAnswersPool } } = this.props;
 
-    this.allInputValues = Array.apply(null, Array(correctAnswersPool.length));
+    this.allInputValues = Array.apply(null, Array(correctAnswersPool.length))
+      .map(_ => '');
     this.state = { disabled: true };
     this.prevAreEqual = false;
   }
@@ -19,7 +20,7 @@ class TrickItemCard extends Component {
 
     let areEqual = true;
     this.allInputValues.forEach((v, i) => {
-      if (v !== correctAnswersPool[i]) {
+      if (v.toLowerCase() !== correctAnswersPool[i].toLowerCase()) {
         areEqual = false;
       }
     });
