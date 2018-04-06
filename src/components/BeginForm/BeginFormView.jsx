@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Select, InputNumber } from 'antd';
+import {
+  firstNameErrorMessage, firstNamePlaceholder, lastNamePlaceholder, lastNameErrorMessage,
+  emailErrorMessage, genderErrorMessage, genderPlaceholder, femaleLabel, agePlacegolder,
+  maleLabel, ageErrorMessage, educationLevelErrorMessage, educationLevelPlaceholder, schoolLabel,
+  highSchoolLabel, bachelorLabel, masterLabel, phdLabel, mailPlaceholder
+} from '../../constants';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -24,12 +30,12 @@ class _BeginForm extends React.Component {
   validadeEmail = (rule, value, callback) => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!value) {
-      callback('Please insert email!');
+      callback(emailErrorMessage);
       return;
     }
     const test = re.test(value.toLowerCase());
-    if(!test)  {
-      callback('Please insert a valid email!');
+    if (!test) {
+      callback(emailErrorMessage);
     }
     callback();
   }
@@ -51,20 +57,20 @@ class _BeginForm extends React.Component {
           help={firstNameError || ''}
         >
           {getFieldDecorator('firstName', {
-            rules: [{ required: true, message: 'Please input your first name!' }],
+            rules: [{ required: true, message: firstNameErrorMessage }],
           })(
-            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="First Name" />
-            )}
+            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={firstNamePlaceholder} />
+          )}
         </FormItem>
         <FormItem
           validateStatus={lastNameError ? 'error' : ''}
           help={lastNameError || ''}
         >
           {getFieldDecorator('lastName', {
-            rules: [{ required: true, message: 'Please input your last name!' }],
+            rules: [{ required: true, message: lastNameErrorMessage }],
           })(
-            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Last Name" />
-            )}
+            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={lastNamePlaceholder} />
+          )}
         </FormItem>
         <FormItem
           validateStatus={emailError ? 'error' : ''}
@@ -78,8 +84,8 @@ class _BeginForm extends React.Component {
               }
             ],
           })(
-            <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="E-Mail" />
-            )}
+            <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={mailPlaceholder} />
+          )}
         </FormItem>
         <FormItem
           labelCol={{ span: 5 }}
@@ -88,25 +94,25 @@ class _BeginForm extends React.Component {
           help={genderError || ''}
         >
           {getFieldDecorator('gender', {
-            rules: [{ required: true, message: 'Please select your gender!' }],
+            rules: [{ required: true, message: genderErrorMessage }],
           })(
             <Select
-              placeholder="Gender"
+              placeholder={genderPlaceholder}
             >
-              <Option value="male">Male</Option>
-              <Option value="female">Female</Option>
+              <Option value="male">{maleLabel}</Option>
+              <Option value="female">{femaleLabel}</Option>
             </Select>
-            )}
+          )}
         </FormItem>
         <FormItem
           validateStatus={ageError ? 'error' : ''}
           help={ageError || ''}
         >
           {getFieldDecorator('age', {
-            rules: [{ required: true, message: 'Please input your age!' }],
+            rules: [{ required: true, message: ageErrorMessage }],
           })(
-            <InputNumber placeholder="Age" min={18} max={90} />
-            )}
+            <InputNumber placeholder={agePlacegolder} min={18} max={90} />
+          )}
         </FormItem>
         <FormItem
           labelCol={{ span: 5 }}
@@ -115,18 +121,18 @@ class _BeginForm extends React.Component {
           help={educationLevelError || ''}
         >
           {getFieldDecorator('educationLevel', {
-            rules: [{ required: true, message: 'Please select your education level!' }],
+            rules: [{ required: true, message: educationLevelErrorMessage }],
           })(
             <Select
-              placeholder="Education Level"
+              placeholder={educationLevelPlaceholder}
             >
-              <Option value="school">School</Option>
-              <Option value="highschool">High School</Option>
-              <Option value="bachelor">Bachelor's</Option>
-              <Option value="master">Master's</Option>
-              <Option value="phd">PhD</Option>
+              <Option value="school">{schoolLabel}</Option>
+              <Option value="highschool">{highSchoolLabel}</Option>
+              <Option value="bachelor">{bachelorLabel}</Option>
+              <Option value="master">{masterLabel}</Option>
+              <Option value="phd">{phdLabel}</Option>
             </Select>
-            )}
+          )}
         </FormItem>
         <FormItem>
           <Button

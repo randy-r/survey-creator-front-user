@@ -143,7 +143,7 @@ class TakeSurveyPage extends Component {
     }
     if (surveyCompleted) {
       return (
-        <h1 style={{ textAlign: 'center' }}>Thanks for taking the survey!</h1>
+        <h1 style={{ textAlign: 'center' }}>{thankYouMessage}</h1>
       );
     }
     if (crtQIdAndTypeIndex === -1) {
