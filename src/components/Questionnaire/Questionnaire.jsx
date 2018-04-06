@@ -9,12 +9,9 @@ const RadioGroup = Radio.Group;
 
 class Choiches extends React.Component {
   onChange = (e) => {
-    console.log('radio checked', e.target.value);
     this.props.onChoiceSelection(e.target.value);
-    // this.setState({
-    //   value: e.target.value,
-    // });
   }
+
   render() {
     const { bullets } = this.props;
     return (

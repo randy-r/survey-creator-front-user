@@ -23,7 +23,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <DatePicker onChange={v => console.log('DatePicker chose: ', v)} />
+        <DatePicker onChange={v => {}} />
         {this.state.foos.map(f => <h3>{f}</h3>)}
       </div>
     );

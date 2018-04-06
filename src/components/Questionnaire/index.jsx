@@ -27,7 +27,6 @@ class QuestionnaireContainer extends Component {
       throw new Error(res.statusText)
     }).then(json => {
       this.setState({ questionnaire: json });
-      console.log(JSON.stringify(json));
     }).catch(e => {
       console.error('Error at fetching: ', e)
       return e;

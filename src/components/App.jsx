@@ -33,13 +33,6 @@ class App extends Component {
                   </Col>
                 </Row>
               </Router>
-              {/* <Row type="flex" justify="center">
-              <Col span={12}>text</Col>
-            </Row> */}
-              {/* <Row type="flex" justify="center">
-              <DatePicker onChange={v => console.log('DatePicker chose: ', v)} />
-              {this.state.foos.map(f => <h3>{f}</h3>)}
-            </Row> */}
             </div>
           </Content>
           <Footer>Footer</Footer>

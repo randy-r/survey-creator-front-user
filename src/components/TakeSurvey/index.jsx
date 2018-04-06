@@ -76,7 +76,6 @@ class TakeSurveyPage extends Component {
     if (crtQIdAndTypeIndex === questionaresIDsAndTypes.length - 1) {
       // last q in survey
       // send all answers to the server
-      console.log('last q in survey, sending answers...');
 
       const data = {
         // surveyId: survey.id, this info is on the crt user
@@ -99,7 +98,6 @@ class TakeSurveyPage extends Component {
         }
         throw new Error(res.statusText)
       }).then(json => {
-        console.log('Successfully ended the survey session', json);
         clearSession();
         this.setState({ surveyCompleted: true });
       }).catch(e => {

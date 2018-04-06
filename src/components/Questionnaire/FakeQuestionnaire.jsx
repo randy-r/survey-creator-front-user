@@ -29,7 +29,6 @@ class TrickItemCard extends Component {
       onCorrectAnswerValidation(areEqual);
     }
     this.prevAreEqual = areEqual;
-    console.log(areEqual);
   }
 
   createBlocksQuestion = () => {
