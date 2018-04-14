@@ -13,6 +13,7 @@ class TakeSurveyPage extends Component {
     crtQIdAndTypeIndex: -1,
     surveyCompleted: false,
     showInstructions: true,
+    showPostInstructions: true,
   }
 
   constructor(props) {
@@ -116,11 +117,11 @@ class TakeSurveyPage extends Component {
 
   render() {
     const { match: { params: { surveyId, userId } } } = this.props;
-    const { survey, crtQIdAndTypeIndex, surveyCompleted, showInstructions } = this.state;
+    const { survey, crtQIdAndTypeIndex, surveyCompleted, showInstructions, showPostInstructions } = this.state;
     if (!survey) {
       return 'Loading...'
     }
-    const { instructions } = survey;
+    const { instructions, postInstructions } = survey;
     if (instructions && showInstructions) {
       return (
         <Fragment>
@@ -135,6 +136,27 @@ class TakeSurveyPage extends Component {
               style={{ alignSelf: 'flex-end' }}
               type="primary"
               onClick={() => this.setState({ showInstructions: false })}
+            >
+              {'>'}
+            </Button>
+          </Row>
+        </Fragment>
+      );
+    }
+    if (surveyCompleted && postInstructions && showPostInstructions) {
+      return (
+        <Fragment>
+          <Card style={{ width: '100%' }}   >
+            <pre>
+              {postInstructions}
+            </pre>
+          </Card>
+          <p />
+          <Row type="flex" justify="end">
+            <Button
+              style={{ alignSelf: 'flex-end' }}
+              type="primary"
+              onClick={() => this.setState({ showPostInstructions: false })}
             >
               {'>'}
             </Button>

@@ -56,7 +56,7 @@ class ItemCard extends Component {
 }
 
 class Questionnaire extends Component {
-  state = { disabled: true, showInstructions: true }
+  state = { disabled: true, showInstructions: true, showPostInstructions: false }
   itemsAnswered = new Map();
 
   handleChoiceSelection = (itemId, value, shouldGoToNext) => {
@@ -75,7 +75,13 @@ class Questionnaire extends Component {
     this.setState({ disabled: this.itemsAnswered.size < items.length })
   }
 
+  goToPostInstructions = () => {
+    this.setState({ showPostInstructions: true });
+  }
+
   handleNext = () => {
+    // when this is called the button is disabled and it can be pressed to go to the next q
+
     const { questionnaire } = this.props;
 
     const items = [];
@@ -90,7 +96,12 @@ class Questionnaire extends Component {
 
   render() {
     const { questionnaire } = this.props;
-    const { showInstructions } = this.state;
+    const { disabled, showInstructions, showPostInstructions } = this.state;
+    let buttonAction = this.handleNext;
+    if (questionnaire.postInstructions) {
+      buttonAction = this.goToPostInstructions;
+    }
+
     if (questionnaire.instructions && showInstructions) {
       return (
         <Fragment>
@@ -111,6 +122,26 @@ class Questionnaire extends Component {
         </Fragment>
       );
     }
+    if (questionnaire.postInstructions && showPostInstructions) {
+      return (
+        <Fragment>
+          <Card style={{ width: '100%' }}   >
+            <pre>
+              {questionnaire.postInstructions}
+            </pre>
+          </Card>
+          <Row type="flex" justify="end">
+            <Button
+              style={{ alignSelf: 'flex-end' }}
+              type="primary"
+              onClick={this.handleNext}
+            >
+              {'>'}
+            </Button>
+          </Row>
+        </Fragment>
+      );
+    }
     return (
       <div >
         {/* {questionnaire.name + ' ' + questionnaire.items.length} */}
@@ -122,7 +153,7 @@ class Questionnaire extends Component {
           <Button
             style={{ alignSelf: 'flex-end' }}
             type="primary"
-            onClick={this.handleNext}
+            onClick={buttonAction}
             disabled={this.state.disabled}
           >
             {'>'}

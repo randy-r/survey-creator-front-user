@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Progress } from 'antd';
 
-const tickingSound = new Audio('/Ticking-clock-sound.mp3');
+const tickingSound = new Audio(`${process.env.PUBLIC_URL}/Ticking-clock-sound.mp3`);
 tickingSound.playbackRate = 2;
 tickingSound.loop = true;
 
