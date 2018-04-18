@@ -6,6 +6,7 @@ import { DatePicker, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 
 import { TakeSurveyPage } from './TakeSurvey';
+import AppErrorBoundary from './AppErrorBoundary';
 
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -25,8 +26,10 @@ class App extends Component {
           <Router>
             <Row style={{ flex: 1, alignItems: 'center' }} type="flex" justify="center" >
               <Col xs={24} sm={24} md={18} lg={12} xl={12} style={{ top: '-15px' }}>
-                <Route path="/user/take-survey/:surveyId" component={TakeSurveyPage} />
-                <Route path="/user/:userId/take-survey/:surveyId" component={TakeSurveyPage} />
+                <AppErrorBoundary>
+                  <Route path="/user/take-survey/:surveyId" component={TakeSurveyPage} />
+                  <Route path="/user/:userId/take-survey/:surveyId" component={TakeSurveyPage} />
+                </AppErrorBoundary>
               </Col>
             </Row>
           </Router>

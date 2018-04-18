@@ -38,3 +38,5 @@ export const phdLabel =
   'Phd';
 export const thankYouMessage =
   'Thanks for taking the survey!';
+export const appLevelErrorMessage =
+  'Something went less right. The page will refresh.';
