@@ -13,14 +13,14 @@ class ProgressTimer extends Component {
     const percentToSubstract = 100 / (totalTime / 1000);
 
     tickingSound.play();
-    const intervalId = setInterval(
+    this.timeoutId = setTimeout(
       () => {
         const { percent } = this.state;
         let newPercent = percent - percentToSubstract;
         newPercent = newPercent < 0 ? 0 : newPercent;
         if (newPercent <= 0) {
           tickingSound.pause();
-          clearInterval(intervalId);
+          clearTimeout(this.timeoutId);
           onTimeRanOut();
         }
         this.setState({ percent: newPercent })
@@ -30,6 +30,7 @@ class ProgressTimer extends Component {
 
   componentWillUnmount() {
     tickingSound.pause();
+    clearTimeout(this.timeoutId);    
   }
 
   render() {
