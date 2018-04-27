@@ -96,7 +96,9 @@ class TakeSurveyPage extends Component {
         if (res.ok)
           return res.json();
         if (res.status === 403) {
-          console.error('You already took this survey');
+          const msg = 'You already took this survey';
+          console.error(msg);
+          alert(msg);
         }
         throw new Error(res.statusText)
       }).then(json => {
