@@ -59,6 +59,10 @@ class Questionnaire extends Component {
   state = { disabled: true, showInstructions: true, showPostInstructions: false }
   itemsAnswered = new Map();
 
+  componentWillReceiveProps(props) {
+    this.setState({ disabled: true });
+  }
+
   handleChoiceSelection = (itemId, value, shouldGoToNext) => {
     const prevValue = this.itemsAnswered.get(itemId);
     let newValue = value;
@@ -80,14 +84,15 @@ class Questionnaire extends Component {
   }
 
   handleNext = () => {
-    // when this is called the button is disabled and it can be pressed to go to the next q
-
     const { questionnaire } = this.props;
 
-    const items = [];
-    this.itemsAnswered.forEach((v, k) => {
-      items.push({ id: k, answer: v });
+    const items = questionnaire.items.map(item => ({ id: item._id, answer: null }));
+
+    this.itemsAnswered.forEach((answer, id) => {
+      const found = items.find(it => it.id === id);
+      found.answer = answer;
     });
+    this.itemsAnswered.clear();
     this.props.onNext({
       items,
       id: questionnaire.id
@@ -147,7 +152,7 @@ class Questionnaire extends Component {
         {/* {questionnaire.name + ' ' + questionnaire.items.length} */}
         <List
           dataSource={questionnaire.items}
-          renderItem={e => <ItemCard onChoiceSelection={this.handleChoiceSelection} item={e} />}
+          renderItem={e => <ItemCard key={questionnaire.id + e._id} onChoiceSelection={this.handleChoiceSelection} item={e} />}
         />
         <Row type="flex" justify="end">
           <Button
