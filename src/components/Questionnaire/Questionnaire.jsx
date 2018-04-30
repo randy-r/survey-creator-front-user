@@ -49,7 +49,7 @@ class ItemCard extends Component {
         >
           <Choiches onChoiceSelection={this.handleChoiceSelection} bullets={answerTemplate.bullets} />
         </Card>
-        {imgUrl && <ProgressTimer totalTime={5000} onTimeRanOut={() => onChoiceSelection(_id, -1, true)} />}
+        {imgUrl && <ProgressTimer totalTime={10000} onTimeRanOut={() => onChoiceSelection(_id, -1, true)} />}
       </List.Item>
     );
   }
@@ -60,7 +60,7 @@ class Questionnaire extends Component {
   itemsAnswered = new Map();
 
   componentWillReceiveProps(props) {
-    this.setState({ disabled: true });
+    this.setState({ disabled: true, showInstructions: true, showPostInstructions: false });
   }
 
   handleChoiceSelection = (itemId, value, shouldGoToNext) => {
