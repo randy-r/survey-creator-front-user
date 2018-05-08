@@ -40,7 +40,7 @@ class TrickItemCard extends Component {
     return (
       <Fragment>
         {item.blocks.map((b, i) => b.type === 'text' ?
-          <span key={i}> {b.text} </span>
+          b.text
           :
           <Input
             onChange={(

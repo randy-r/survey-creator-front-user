@@ -27,7 +27,7 @@ class Choiches extends React.Component {
 const CardTitle = ({ text, imgUrl }) => {
   return (
     <Fragment>
-      <span>{text}</span>
+      <span style={{whiteSpace: 'pre-line'}}>{text}</span>
       {imgUrl && <img style={{ width: '100%' }} border="0" alt="Null" src={imgUrl} />}
     </Fragment>
   );
@@ -44,7 +44,7 @@ class ItemCard extends Component {
     return (
       <List.Item>
         <Card
-          style={{ width: '100%', wordWrap: 'break-word', whiteSpace: 'normal', wordBreak: 'break-all' }}
+          style={{ width: '100%'}}
           title={<CardTitle text={text} imgUrl={imgUrl} />}
         >
           <Choiches onChoiceSelection={this.handleChoiceSelection} bullets={answerTemplate.bullets} />
