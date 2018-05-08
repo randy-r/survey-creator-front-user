@@ -49,7 +49,7 @@ class ItemCard extends Component {
         >
           <Choiches onChoiceSelection={this.handleChoiceSelection} bullets={answerTemplate.bullets} />
         </Card>
-        {imgUrl && <ProgressTimer totalTime={10000} onTimeRanOut={() => onChoiceSelection(_id, -1, true)} />}
+        {imgUrl && <ProgressTimer totalTime={15000} onTimeRanOut={() => onChoiceSelection(_id, -1, true)} />}
       </List.Item>
     );
   }
