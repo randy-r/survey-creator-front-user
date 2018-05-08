@@ -111,7 +111,7 @@ class Questionnaire extends Component {
       return (
         <Fragment>
           <Card style={{ width: '100%' }}   >
-            <pre>
+            <pre className="instructionText">
               {questionnaire.instructions}
             </pre>
           </Card>
@@ -131,7 +131,7 @@ class Questionnaire extends Component {
       return (
         <Fragment>
           <Card style={{ width: '100%' }}   >
-            <pre>
+            <pre className="instructionText">
               {questionnaire.postInstructions}
             </pre>
           </Card>

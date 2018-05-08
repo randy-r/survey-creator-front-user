@@ -128,7 +128,7 @@ class TakeSurveyPage extends Component {
       return (
         <Fragment>
           <Card style={{ width: '100%' }}   >
-            <pre>
+            <pre className="instructionText">
               {instructions}
             </pre>
           </Card>
@@ -149,7 +149,7 @@ class TakeSurveyPage extends Component {
       return (
         <Fragment>
           <Card style={{ width: '100%' }}   >
-            <pre>
+            <pre className="instructionText">
               {postInstructions}
             </pre>
           </Card>
