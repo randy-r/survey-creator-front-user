@@ -9,7 +9,7 @@ class TrickItemCard extends Component {
 
     this.allInputValues = Array.apply(null, Array(correctAnswersPool.length))
       .map(_ => '');
-    this.state = { disabled: true };
+    this.state = { areEqual: false };
     this.prevAreEqual = false;
   }
 
@@ -26,7 +26,9 @@ class TrickItemCard extends Component {
     });
     if (this.prevAreEqual !== areEqual) {
       const { onCorrectAnswerValidation } = this.props;
-      onCorrectAnswerValidation(areEqual);
+      this.setState({ areEqual },
+        () => onCorrectAnswerValidation(areEqual)
+      );
     }
     this.prevAreEqual = areEqual;
   }
@@ -65,9 +67,11 @@ class TrickItemCard extends Component {
   }
 
   render() {
+    const { areEqual } = this.state;
+    const background = areEqual ? '#6cea6c' : '';
     return (
       <List.Item>
-        <Card style={{ width: '100%' }} title={this.createBlocksQuestion()}>
+        <Card style={{ width: '100%', background }} title={this.createBlocksQuestion()}>
           {this.createAnswers()}
         </Card>
       </List.Item>
