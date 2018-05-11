@@ -70,8 +70,14 @@ class Questionnaire extends Component {
       newValue = prevValue;
     }
     this.itemsAnswered.set(itemId, newValue);
+
     if (shouldGoToNext === true) {
-      this.handleNext();
+      const { questionnaire } = this.props;
+      if(questionnaire.postInstructions){
+        this.goToPostInstructions();
+      }else{
+        this.handleNext();
+      }
       return;
     }
 
