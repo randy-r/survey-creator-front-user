@@ -25,7 +25,14 @@ class TakeSurveyPage extends Component {
     const { match } = this.props;
     const { surveyId } = match.params;
 
-    fetch(`/api/surveys/${surveyId}/take-shape`)
+    fetch(`/api/surveys/${surveyId}/take-shape`,{
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`,
+      },
+      method: 'GET',
+    })
       .then(res => {
         if (res.ok)
           return res.json();
