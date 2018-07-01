@@ -1,10 +1,14 @@
 .ant-card-head-title {
-  word-wrap: break-word;
+  /* word-wrap: break-word; */
   white-space: normal;
-  word-break: break-all;
+  /* word-break: break-all; */
 }
 
 .ant-radio-group{
   display: flex;
   flex-direction: column;
+}
+
+.ant-card-head {
+  background: none;
 }

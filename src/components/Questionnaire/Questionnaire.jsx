@@ -27,7 +27,7 @@ class Choiches extends React.Component {
 const CardTitle = ({ text, imgUrl }) => {
   return (
     <Fragment>
-      <span>{text}</span>
+      <span style={{whiteSpace: 'pre-line'}}>{text}</span>
       {imgUrl && <img style={{ width: '100%' }} border="0" alt="Null" src={imgUrl} />}
     </Fragment>
   );
@@ -44,20 +44,24 @@ class ItemCard extends Component {
     return (
       <List.Item>
         <Card
-          style={{ width: '100%', wordWrap: 'break-word', whiteSpace: 'normal', wordBreak: 'break-all' }}
+          style={{ width: '100%'}}
           title={<CardTitle text={text} imgUrl={imgUrl} />}
         >
           <Choiches onChoiceSelection={this.handleChoiceSelection} bullets={answerTemplate.bullets} />
         </Card>
-        {imgUrl && <ProgressTimer totalTime={5000} onTimeRanOut={() => onChoiceSelection(_id, -1, true)} />}
+        {imgUrl && <ProgressTimer totalTime={15000} onTimeRanOut={() => onChoiceSelection(_id, -1, true)} />}
       </List.Item>
     );
   }
 }
 
 class Questionnaire extends Component {
-  state = { disabled: true, showInstructions: true }
+  state = { disabled: true, showInstructions: true, showPostInstructions: false }
   itemsAnswered = new Map();
+
+  componentWillReceiveProps(props) {
+    this.setState({ disabled: true, showInstructions: true, showPostInstructions: false });
+  }
 
   handleChoiceSelection = (itemId, value, shouldGoToNext) => {
     const prevValue = this.itemsAnswered.get(itemId);
@@ -66,8 +70,14 @@ class Questionnaire extends Component {
       newValue = prevValue;
     }
     this.itemsAnswered.set(itemId, newValue);
+
     if (shouldGoToNext === true) {
-      this.handleNext();
+      const { questionnaire } = this.props;
+      if(questionnaire.postInstructions){
+        this.goToPostInstructions();
+      }else{
+        this.handleNext();
+      }
       return;
     }
 
@@ -75,13 +85,20 @@ class Questionnaire extends Component {
     this.setState({ disabled: this.itemsAnswered.size < items.length })
   }
 
+  goToPostInstructions = () => {
+    this.setState({ showPostInstructions: true });
+  }
+
   handleNext = () => {
     const { questionnaire } = this.props;
 
-    const items = [];
-    this.itemsAnswered.forEach((v, k) => {
-      items.push({ id: k, answer: v });
+    const items = questionnaire.items.map(item => ({ id: item._id, answer: null }));
+
+    this.itemsAnswered.forEach((answer, id) => {
+      const found = items.find(it => it.id === id);
+      found.answer = answer;
     });
+    this.itemsAnswered.clear();
     this.props.onNext({
       items,
       id: questionnaire.id
@@ -90,12 +107,17 @@ class Questionnaire extends Component {
 
   render() {
     const { questionnaire } = this.props;
-    const { showInstructions } = this.state;
+    const { disabled, showInstructions, showPostInstructions } = this.state;
+    let buttonAction = this.handleNext;
+    if (questionnaire.postInstructions) {
+      buttonAction = this.goToPostInstructions;
+    }
+
     if (questionnaire.instructions && showInstructions) {
       return (
         <Fragment>
           <Card style={{ width: '100%' }}   >
-            <pre>
+            <pre className="instructionText">
               {questionnaire.instructions}
             </pre>
           </Card>
@@ -111,18 +133,38 @@ class Questionnaire extends Component {
         </Fragment>
       );
     }
+    if (questionnaire.postInstructions && showPostInstructions) {
+      return (
+        <Fragment>
+          <Card style={{ width: '100%' }}   >
+            <pre className="instructionText">
+              {questionnaire.postInstructions}
+            </pre>
+          </Card>
+          <Row type="flex" justify="end">
+            <Button
+              style={{ alignSelf: 'flex-end' }}
+              type="primary"
+              onClick={this.handleNext}
+            >
+              {'>'}
+            </Button>
+          </Row>
+        </Fragment>
+      );
+    }
     return (
       <div >
         {/* {questionnaire.name + ' ' + questionnaire.items.length} */}
         <List
           dataSource={questionnaire.items}
-          renderItem={e => <ItemCard onChoiceSelection={this.handleChoiceSelection} item={e} />}
+          renderItem={e => <ItemCard key={questionnaire.id + e._id} onChoiceSelection={this.handleChoiceSelection} item={e} />}
         />
         <Row type="flex" justify="end">
           <Button
             style={{ alignSelf: 'flex-end' }}
             type="primary"
-            onClick={this.handleNext}
+            onClick={buttonAction}
             disabled={this.state.disabled}
           >
             {'>'}

@@ -13,6 +13,7 @@ class TakeSurveyPage extends Component {
     crtQIdAndTypeIndex: -1,
     surveyCompleted: false,
     showInstructions: true,
+    showPostInstructions: true,
   }
 
   constructor(props) {
@@ -24,7 +25,14 @@ class TakeSurveyPage extends Component {
     const { match } = this.props;
     const { surveyId } = match.params;
 
-    fetch(`/api/surveys/${surveyId}/take-shape`)
+    fetch(`/api/surveys/${surveyId}/take-shape`,{
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`,
+      },
+      method: 'GET',
+    })
       .then(res => {
         if (res.ok)
           return res.json();
@@ -95,7 +103,9 @@ class TakeSurveyPage extends Component {
         if (res.ok)
           return res.json();
         if (res.status === 403) {
-          console.error('You already took this survey');
+          const msg = 'You already took this survey';
+          console.error(msg);
+          alert(msg);
         }
         throw new Error(res.statusText)
       }).then(json => {
@@ -116,16 +126,16 @@ class TakeSurveyPage extends Component {
 
   render() {
     const { match: { params: { surveyId, userId } } } = this.props;
-    const { survey, crtQIdAndTypeIndex, surveyCompleted, showInstructions } = this.state;
+    const { survey, crtQIdAndTypeIndex, surveyCompleted, showInstructions, showPostInstructions } = this.state;
     if (!survey) {
       return 'Loading...'
     }
-    const { instructions } = survey;
+    const { instructions, postInstructions } = survey;
     if (instructions && showInstructions) {
       return (
         <Fragment>
           <Card style={{ width: '100%' }}   >
-            <pre>
+            <pre className="instructionText">
               {instructions}
             </pre>
           </Card>
@@ -135,6 +145,27 @@ class TakeSurveyPage extends Component {
               style={{ alignSelf: 'flex-end' }}
               type="primary"
               onClick={() => this.setState({ showInstructions: false })}
+            >
+              {'>'}
+            </Button>
+          </Row>
+        </Fragment>
+      );
+    }
+    if (surveyCompleted && postInstructions && showPostInstructions) {
+      return (
+        <Fragment>
+          <Card style={{ width: '100%' }}   >
+            <pre className="instructionText">
+              {postInstructions}
+            </pre>
+          </Card>
+          <p />
+          <Row type="flex" justify="end">
+            <Button
+              style={{ alignSelf: 'flex-end' }}
+              type="primary"
+              onClick={() => this.setState({ showPostInstructions: false })}
             >
               {'>'}
             </Button>
